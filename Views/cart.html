@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/cart.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Cart Products</title>
+</head>
+
+<body>
+    <main>
+        <!-- Header -->
+        <header class="header">
+            <div class="content">
+                <nav class="navbar">
+                    <!-- Logo -->
+                    <a href="/"><img src="/img/Logo.svg" alt=""></a>
+
+                    <!-- Navigation -->
+                    <ul class="nav-menu">
+                        <li><a href="#!">Nam</a></li>
+                        <li><a href="#!">Nữ</a> </li>
+                        <li><a href="#!">Trẻ em</a></li>
+                        <li><a href="#!">Phụ kiện</a></li>
+                    </ul>
+
+                    <!-- Search -->
+                    <div class="search-container">
+                        <form action="/" method="">
+                            <input type="text" name="query" placeholder="Tìm kiếm" class="input">
+                            <button type="submit" class="search-btn">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Icon -->
+                    <ul class="icon">
+                        <li><a href="/account"><i class="fa-solid fa-user user-icon"></i></a></li>
+                        <li><a href="/cart/products"><i class="fa-solid fa-cart-shopping cart-icon"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <div class="emty-cart">
+            <img class="emty-cart-empty" src="/img/empty-cart.svg" alt="">
+        </div>
+
+        <!-- Cart Products -->
+        <div class="cart">
+            <div class="content">
+                <h1 class="cart-title">Giỏ hàng</h1>
+                <section class="cart-container">
+
+                    <!-- Bảng tiêu đề các cột -->
+                    <div class="cart-header">
+                        <div class="cart-header-item">
+                            <input type="checkbox" class="cart-select-all"> Sản phẩm
+                        </div>
+                        <div class="cart-header-price">Giá</div>
+                        <div class="cart-header-quantity">Số lượng</div>
+                        <div class="cart-header-remove"></div>
+                    </div>
+
+                    <!-- Giỏ hàng sản phẩm -->
+                    <div class="cart-product">
+                        <div class="cart-product-item">
+                            <input type="checkbox" class="cart-select">
+                            <img src="/img/sandals_1.jpg" alt="Sandal nam nữ" class="cart-product-img">
+                            <div class="cart-product-info">
+                                <p class="info-title">Sandal nam nữ đi học F6S đen full</p>
+                                <p>
+                                    Size
+                                    <select class="cart-size">
+                                        <option value="36">36</option>
+                                        <option value="37">37</option>
+                                        <option value="38">38</option>
+                                        <option value="39">39</option>
+                                        <option value="40">40</option>
+                                        <option value="40">41</option>
+                                        <option value="40">42</option>
+                                        <option value="40">43</option>
+                                    </select>
+                                </p>
+                                <button class="cart-update">Cập nhật</button>
+                            </div>
+                        </div>
+                        <div class="cart-price">
+                            549.000 đ
+                        </div>
+                        <div class="product-quantity">
+                            <input type="number" id="quantity" name="quantity" min="1" value="1">
+                        </div>
+                        <button class="cart-remove">Xóa</button>
+                    </div>
+
+                    <!-- Xóa all -->
+                    <div class="delete-all">
+                        <input type="checkbox" class="cart-select-all">
+                        <button class="cart-remove-all">Xóa tất cả</button>
+                    </div>
+
+                    <!-- Tổng cộng -->
+                    <div class="cart-summary">
+                        <div class="cart-summary-row">
+                            <span>Giá</span>
+                            <span>549.000 đ</span>
+                        </div>
+                        <div class="cart-summary-row">
+                            <span>Phí vận chuyển</span>
+                            <span>1.000 đ</span>
+                        </div>
+                        <div class="cart-summary-row total">
+                            <span>Tổng cộng</span>
+                            <span>550.000 đ</span>
+                        </div>
+                        <button class="checkout-btn">Tiến hành thanh toán</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </main>
+</body>
+
+</html>

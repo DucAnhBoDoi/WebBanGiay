@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 
 // Route cho trang payment
-router.get('/payment', (req, res) => {
+router.get('/payment/products', (req, res) => {
   res.sendFile(path.join(__dirname, '../views', 'payment.html'));
 });
 
