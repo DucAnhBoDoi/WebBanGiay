@@ -1,10 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
+const Product = require('../Models/products'); // Import model Product
 
 // Route cho trang home
-router.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../views', 'home.html'));
+router.get('/', async (req, res) => {
+  try {
+    // Lấy sản phẩm sandals và sneakers từ MongoDB
+    const sandals = await Product.find({ ID: { $in: ["PROD001", "PROD002", "PROD003", "PROD004", "PROD005"] } });
+    const sneakers = await Product.find({ ID: { $in: ["PROD006", "PROD007", "PROD008", "PROD009", "PROD010"] } });
+
+    res.render('home', { sandals, sneakers }); // Truyền từng loại sản phẩm vào view
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 module.exports = router;
+
+
