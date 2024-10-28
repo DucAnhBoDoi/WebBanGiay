@@ -1,9 +1,9 @@
 const User = require('../Models/user');
 
-// Lấy thông tin người dùng
+
 const getUser = async (req, res) => {
     try {
-        const user = await User.findOne(); // Lấy một người dùng (vì bạn chỉ có một)
+        const user = await User.findOne(); 
         if (!user) {
             return res.status(404).send('Người dùng không tồn tại');
         }

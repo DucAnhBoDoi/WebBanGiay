@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     const sandals = await Product.find({ ID: { $in: ["PROD001", "PROD002", "PROD003", "PROD004", "PROD005"] } });
     const sneakers = await Product.find({ ID: { $in: ["PROD006", "PROD007", "PROD008", "PROD009", "PROD010"] } });
 
-    res.render('home', { sandals, sneakers }); // Truyền từng loại sản phẩm vào view
+    res.render('home', { sandals, sneakers }); 
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
