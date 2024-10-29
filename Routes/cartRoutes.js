@@ -1,4 +1,4 @@
-// Routes/cart.js
+// Routes/cartRoutes.js
 const express = require('express');
 const router = express.Router();
 const Product = require('../Models/products'); // Import model Product
