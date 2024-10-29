@@ -97,6 +97,11 @@ a {
     font-style: bold;
 }
 
+.size-btn.active {
+    background-color: #000; /* Màu nền khi kích hoạt */
+    color: #fff; /* Màu chữ khi kích hoạt */
+}
+
 .size-btn:hover {
     background-color: #d5d5d5;
 }

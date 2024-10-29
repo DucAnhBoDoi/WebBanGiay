@@ -47,82 +47,87 @@
                 </nav>
             </div>
         </header>
-        
+
         <!-- Cart Products -->
         <div class="cart">
-        <div class="content">
-            <h1 class="cart-title">Giỏ hàng</h1>
-            <section class="cart-container">
+            <div class="content">
+                <h1 class="cart-title">Giỏ hàng</h1>
+                <section class="cart-container">
 
-                <!-- Bảng tiêu đề các cột -->
-                <div class="cart-header">
-                    <div class="cart-header-item">
-                        <input type="checkbox" class="cart-select-all"> Sản phẩm
-                    </div>
-                    <div class="cart-header-price">Giá</div>
-                    <div class="cart-header-quantity">Số lượng</div>
-                    <div class="cart-header-remove"></div>
-                </div>
-
-                <!-- Giỏ hàng sản phẩm -->
-                <% if (products.length > 0) { %>
-                    <% products.forEach(product => { %>
-                        <div class="cart-product">
-                            <div class="cart-product-item">
-                                <input type="checkbox" class="cart-select">
-                                <img src="<%= product.hinhanh %>" alt="<%= product.tensanpham %>" class="cart-product-img">
-                                <div class="cart-product-info">
-                                    <p class="info-title"><%= product.tensanpham %></p>
-                                    <p>
-                                        Size
-                                        <select class="cart-size">
-                                            <% product.kichthuoc.forEach(size => { %>
-                                                <option value="<%= size %>"><%= size %></option>
-                                            <% }) %>
-                                        </select>
-                                    </p>
-                                    <button class="cart-update">Cập nhật</button>
-                                </div>
-                            </div>
-                            <div class="cart-price">
-                                <%= product.gia.toLocaleString() %> đ
-                            </div>
-                            <div class="product-quantity">
-                                <input type="number" id="quantity" name="quantity" min="1" value="1">
-                            </div>
-                            <button class="cart-remove">Xóa</button>
+                    <!-- Bảng tiêu đề các cột -->
+                    <div class="cart-header">
+                        <div class="cart-header-item">
+                            <input type="checkbox" class="cart-select-all"> Sản phẩm
                         </div>
-                    <% }) %>
-                <% } else { %>
-                    <p>Giỏ hàng của bạn đang trống.</p>
-                <% } %>
+                        <div class="cart-header-price">Giá</div>
+                        <div class="cart-header-quantity">Số lượng</div>
+                        <div class="cart-header-remove"></div>
+                    </div>
 
-                <!-- Xóa all -->
-                <div class="delete-all">
-                    <button class="cart-remove-all">Xóa tất cả</button>
-                </div>
+                    <!-- Giỏ hàng sản phẩm -->
+                    <% if (products.length> 0) { %>
+                        <% products.forEach(product=> { %>
+                            <div class="cart-product">
+                                <div class="cart-product-item">
+                                    <input type="checkbox" class="cart-select">
+                                    <img src="<%= product.hinhanh %>" alt="<%= product.tensanpham %>"
+                                        class="cart-product-img">
+                                    <div class="cart-product-info">
+                                        <p class="info-title">
+                                            <%= product.tensanpham %>
+                                        </p>
+                                        <p>
+                                            Size
+                                            <select class="cart-size">
+                                                <% product.kichthuoc.forEach(size=> { %>
+                                                    <option value="<%= size %>">
+                                                        <%= size %>
+                                                    </option>
+                                                    <% }) %>
+                                            </select>
+                                        </p>
+                                        <button class="cart-update">Cập nhật</button>
+                                    </div>
+                                </div>
+                                <div class="cart-price">
+                                    <%= product.gia.toLocaleString() %> đ
+                                </div>
+                                <div class="product-quantity">
+                                    <input type="number" id="quantity" name="quantity" min="1" value="1">
+                                </div>
+                                <button class="cart-remove">Xóa</button>
+                            </div>
+                            <% }) %>
+                                <% } else { %>
+                                    <p>Giỏ hàng của bạn đang trống.</p>
+                                    <% } %>
 
-                <!-- Tổng cộng -->
-                <div class="cart-summary">
-                    <div class="cart-summary-row">
-                        <span>Giá</span>
-                        <span><!-- Tổng giá sản phẩm sẽ được tính ở đây --></span>
-                    </div>
-                    <div class="cart-summary-row">
-                        <span>Phí vận chuyển</span>
-                        <span>1.000 đ</span>
-                    </div>
-                    <div class="cart-summary-row total">
-                        <span>Tổng cộng</span>
-                        <span><!-- Tổng tiền sẽ được tính ở đây --></span>
-                    </div>
-                    <a href="/payment/products">
-                        <button class="checkout-btn">Tiến hành thanh toán</button>
-                    </a>
-                </div>
-            </section>
+                                        <!-- Xóa all -->
+                                        <div class="delete-all">
+                                            <button class="cart-remove-all">Xóa tất cả</button>
+                                        </div>
+
+                                        <!-- Tổng cộng -->
+                                        <div class="cart-summary">
+                                            <div class="cart-summary-row">
+                                                <span>Giá</span>
+                                                <span><!-- Tổng giá sản phẩm sẽ được tính ở đây --></span>
+                                            </div>
+                                            <div class="cart-summary-row">
+                                                <span>Phí vận chuyển</span>
+                                                <span>1.000 đ</span>
+                                            </div>
+                                            <div class="cart-summary-row total">
+                                                <span>Tổng cộng</span>
+                                                <span><!-- Tổng tiền sẽ được tính ở đây --></span>
+                                            </div>
+                                            <a href="/payment/products">
+                                                <button class="checkout-btn">Tiến hành thanh toán</button>
+                                            </a>
+                                        </div>
+                </section>
+            </div>
         </div>
-    </div>
 
     </main>
 </body>
