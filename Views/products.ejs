@@ -56,22 +56,29 @@
                     <img src="<%= product.hinhanh %>" alt="<%= product.tensanpham %>" class="product-thumb">
                 </div>
                 <div class="product-details">
-                    <h2 class="product-title"><%= product.tensanpham %></h2>
-                    <p class="product-code">Mã hàng: <%= product.ID %></p>
-                    <p class="product-price"><%= product.gia.toLocaleString() %> đ</p>
+                    <h2 class="product-title">
+                        <%= product.tensanpham %>
+                    </h2>
+                    <p class="product-code">Mã hàng: <%= product.ID %>
+                    </p>
+                    <p class="product-price">
+                        <%= product.gia.toLocaleString() %> đ
+                    </p>
 
                     <div class="product-sizes">
                         <span class="size-label">Size</span>
                         <div class="sizes">
-                          <% product.kichthuoc.forEach(size => { %>
-                            <button class="size-btn"><%= size %></button>
-                          <% }) %>
+                            <% product.kichthuoc.forEach(size=> { %>
+                                <button class="size-btn">
+                                    <%= size %>
+                                </button>
+                                <% }) %>
                         </div>
-                      </div>
+                    </div>
 
                     <div class="product-quantity">
                         <label for="quantity">Số lượng</label>
-                        <input type="number" id="quantity" name="quantity" min="1" value="1">
+                        <input type="number" id="quantity" name="quantity" min="1" value="<%= product.soluong %>">
                     </div>
 
                     <div class="product-buttons">
@@ -112,18 +119,24 @@
                 <h2>Gợi ý cho bạn</h2>
 
                 <div class="list">
-                    <% suggestedProducts.forEach(suggestedProduct => { %>
+                    <% suggestedProducts.forEach(suggestedProduct=> { %>
                         <div class="item">
                             <a href="/products/<%= suggestedProduct.ID %>">
                                 <img src="<%= suggestedProduct.hinhanh %>" alt="" class="thumb">
                             </a>
                             <div class="body">
-                                <h3 class="title"><%= suggestedProduct.tensanpham %></h3>
-                                <p class="desc"><%= suggestedProduct.mota %></p>
-                                <p class="cost"><%= suggestedProduct.gia.toLocaleString() %> đ</p>
+                                <h3 class="title">
+                                    <%= suggestedProduct.tensanpham %>
+                                </h3>
+                                <p class="desc">
+                                    <%= suggestedProduct.mota %>
+                                </p>
+                                <p class="cost">
+                                    <%= suggestedProduct.gia.toLocaleString() %> đ
+                                </p>
                             </div>
                         </div>
-                    <% }); %>
+                        <% }); %>
                 </div>
             </div>
         </div>
