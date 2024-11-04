@@ -10,7 +10,7 @@ router.get('/account', async (req, res) => {
         if (!user) {
             return res.status(404).send('Người dùng không tìm thấy');
         }
-        res.render('profile', { user }); 
+        res.render('user', { user }); 
     } catch (error) {
         res.status(500).send('Lỗi khi lấy thông tin tài khoản');
     }
