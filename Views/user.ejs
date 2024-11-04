@@ -51,35 +51,56 @@
         <!-- Info -->
         <div class="container">
             <h2>Thay đổi thông tin tài khoản</h2>
-            <form class="form">
+            <% if (successMessage) { %>
+                <div class="alert alert-success">
+                    <%= successMessage %>
+                </div>
+            <% } %>
+
+            <% if (errorMessage) { %>
+                <div class="alert alert-danger">
+                    <%= errorMessage %>
+                </div>
+            <% } %>
+            <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+            <form class="form" method="POST" action="/account">
                 <!-- Họ tên -->
                 <label for="username" class="label">Họ tên</label>
                 <input type="text" id="username" name="username" required class="input" value="<%= user.hoten %>">
-
+        
                 <!-- Số điện thoại -->
                 <label for="phone" class="label">Số điện thoại</label>
                 <input type="text" id="phone" name="phone" required class="input" value="<%= user.sodienthoai %>">
-
+        
                 <!-- Địa chỉ nhà -->
                 <label for="address" class="label">Địa chỉ nhà</label>
                 <input type="text" id="address" name="address" required class="input" value="<%= user.diachi %>">
-
+        
                 <!-- Thành phố -->
                 <label for="city" class="label">Thành phố</label>
                 <input type="text" id="city" name="city" required class="input" value="<%= user.thanhpho %>">
-
+        
                 <!-- Phường -->
                 <label for="ward" class="label">Phường</label>
                 <input type="text" id="ward" name="ward" required class="input" value="<%= user.phuong %>">
-
+        
                 <!-- Quận -->
                 <label for="district" class="label">Quận</label>
                 <input type="text" id="district" name="district" required class="input" value="<%= user.quan %>">
-
+        
                 <!-- Nút Lưu -->
                 <button type="submit" class="submit">Lưu</button>
             </form>
         </div>
+
+        <script>
+            setTimeout(function() {
+                const alert = document.querySelector('.alert');
+                if (alert) {
+                    alert.style.display = 'none';
+                }
+            }, 3000); 
+        </script>
 
         <!-- Footer -->
         <footer class="footer">

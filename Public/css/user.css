@@ -278,3 +278,20 @@ ul{
     width: 100%;
 }
 }
+
+.alert-success{
+    background: #00ff8b4f;
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.alert-danger {
+    background: #ff7979;
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
