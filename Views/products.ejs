@@ -70,12 +70,13 @@
                         <span class="size-label">Size</span>
                         <div class="sizes">
                             <% product.kichthuoc.forEach(size=> { %>
-                                <button class="size-btn" onclick="selectSize('<%= size %>')">
+                                <button class="size-btn" id="size-<%= size %>" onclick="selectSize('<%= size %>')">
                                     <%= size %>
                                 </button>
                                 <% }) %>
                         </div>
                     </div>
+
 
                     <!-- Số lượng sản phẩm -->
                     <div class="product-quantity">
@@ -86,8 +87,9 @@
                     <!-- Nút thêm vào giỏ -->
                     <div class="product-buttons">
                         <button class="btn-cart" onclick="addToCart('<%= product.ID %>')">Thêm vào giỏ</button>
-                        <button class="btn-buy">Mua Ngay</button>
+                        <button class="btn-buy" onclick="buyNow('<%= product.ID %>')">Mua Ngay</button>
                     </div>
+
 
                     <!-- Commit -->
                     <div class="commit">
@@ -180,6 +182,72 @@
                 </div>
             </div>
         </footer>
+
+
+        <script>
+            let selectedSize = null;
+
+            function selectSize(size) {
+                selectedSize = size; // Lưu kích thước đã chọn
+                // Reset lại màu sắc của các nút size
+                const buttons = document.querySelectorAll('.size-btn');
+                buttons.forEach(button => {
+                    button.style.backgroundColor = ''; // Xóa màu của tất cả các nút
+                });
+
+                // Thêm màu sắc cho nút đã chọn
+                const selectedButton = document.getElementById(`size-${size}`);
+                selectedButton.style.backgroundColor = '#f0ad4e'; // Màu khi chọn
+            }
+
+            function addToCart(productId) {
+                const quantity = document.getElementById("quantity").value;
+                if (!selectedSize) {
+                    alert("Vui lòng chọn kích thước!");
+                    return;
+                }
+
+                if (!quantity || quantity <= 0) {
+                    alert("Vui lòng nhập số lượng hợp lệ!");
+                    return;
+                }
+
+                fetch("/add-to-cart", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        productId: productId,
+                        size: selectedSize,
+                        quantity: quantity
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                    })
+                    .catch(error => {
+                        console.error("Có lỗi xảy ra khi thêm sản phẩm vào giỏ:", error);
+                    });
+            }
+
+            function buyNow(productId) {
+                const quantity = document.getElementById("quantity").value;
+                if (!selectedSize) {
+                    alert("Vui lòng chọn kích thước!");
+                    return;
+                }
+
+                if (!quantity || quantity <= 0) {
+                    alert("Vui lòng nhập số lượng hợp lệ!");
+                    return;
+                }
+
+                alert("Vui lòng thêm sản phẩm vào giỏ để mua ngay!");
+            }
+
+        </script>
 
     </main>
 </body>
