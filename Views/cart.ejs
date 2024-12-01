@@ -93,8 +93,9 @@
                                     <%= product.gia.toLocaleString() %> đ
                                 </div>
                                 <div class="product-quantity">
-                                    <input type="number" id="quantity" name="quantity" min="1" value="1">
+                                    <input type="number" id="quantity" name="quantity" min="1" value="<%= product.soluong %>">
                                 </div>
+                                
                                 <button class="cart-remove">Xóa</button>
                             </div>
                             <% }) %>
