@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/search.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Search</title>
+</head>
+
+<body>
+  <main>
+    <!-- Header -->
+    <header class="header">
+      <div class="content">
+        <nav class="navbar">
+          <!-- Logo -->
+          <a href="/"><img src="/img/Logo.svg" alt=""></a>
+
+          <!-- Navigation -->
+          <ul class="nav-menu">
+            <li><a href="#!">Nam</a></li>
+            <li><a href="#!">Nữ</a> </li>
+            <li><a href="#!">Trẻ em</a></li>
+            <li><a href="#!">Phụ kiện</a></li>
+          </ul>
+
+          <!-- Search -->
+          <div class="search-container">
+            <form action="/search" method="get">
+              <input type="text" name="q" placeholder="Tìm kiếm" class="input" required>
+              <button type="submit" class="search-btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- Icon -->
+          <ul class="icon">
+            <li><a href="/account"><i class="fa-solid fa-user user-icon"></i></a></li>
+            <li><a href="/cart/products"><i class="fa-solid fa-cart-shopping cart-icon"></i></a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+
+    <!-- Sandals Best -->
+     <!-- Sandals Best -->
+     <div class="homebest-content">
+        <div class="content">
+          <h2>Kết quả tìm kiếm cho: "<%= query %>"</h2>
+  
+          <div class="list">
+            <% if (sandals.length > 0) { %>
+              <% sandals.forEach(function(sandal) { %>
+                <div class="item">
+                  <a href="/products/<%= sandal.ID %>">
+                    <img src="<%= sandal.hinhanh %>" alt="" class="thumb">
+                  </a>
+                  <div class="body">
+                    <h3 class="title"><%= sandal.tensanpham %></h3>
+                    <p class="desc">Quai xoay thành dép</p>
+                    <p class="cost"><%= sandal.gia.toLocaleString() %> đ</p>
+                  </div>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <p>Không tìm thấy sản phẩm phù hợp.</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+
+  </main>
+
+</body>
+
+</html>

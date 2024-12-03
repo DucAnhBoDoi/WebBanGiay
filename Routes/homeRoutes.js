@@ -16,6 +16,28 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+// Route cho trang search
+router.get('/search', async (req, res) => {
+  try {
+    // Lấy giá trị tìm kiếm từ query string
+    const query = req.query.q;
+    
+    // Tìm sản phẩm theo tên sản phẩm trong MongoDB
+    const sandals = await Product.find({ 
+      tensanpham: { $regex: query, $options: 'i' } // Tìm kiếm không phân biệt chữ hoa chữ thường
+    });
+
+    // Render trang search và truyền dữ liệu sandals vào
+    res.render('search', { sandals, query });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+
 module.exports = router;
 
 

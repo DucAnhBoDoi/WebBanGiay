@@ -28,35 +28,37 @@
         <div class="cart-container">
             <div class="product-section">
                 <div class="product-info">
+                    <!-- Hiển thị danh sách sản phẩm trong giỏ hàng -->
                     <% products.forEach(product => { %>
                         <div class="product">
                             <img src="<%= product.hinhanh %>" alt="Sản phẩm">
                             <div class="product-details">
                                 <p><%= product.tensanpham %></p>
                                 <p>Size: <%= product.kichthuoc[0] %></p> 
-                                <p>SL: 1</p>
-                                <div class="product-price"><%= product.gia.toLocaleString() %> đ</div>
+                                <p>SL: <%= product.soluong %></p> <!-- Số lượng sản phẩm -->
+                                <div class="product-price"><%= product.gia.toLocaleString() %> đ</div> <!-- Giá sản phẩm -->
                             </div>
                         </div>
                     <% }) %>
-
+            
                     <!-- Tổng cộng -->
                     <div class="cart-summary">
                         <div class="cart-summary-row">
                             <span>Tổng số lượng sản phẩm</span>
-                            <span><%= totalQuantity %></span>
+                            <span><%= totalQuantity %></span> <!-- Tổng số lượng sản phẩm -->
                         </div>
                         <div class="cart-summary-row">
                             <span>Phí vận chuyển</span>
-                            <span><%= shippingFee.toLocaleString() %> đ</span>
+                            <span><%= shippingFee.toLocaleString() %> đ</span> <!-- Phí vận chuyển -->
                         </div>
                         <div class="cart-summary-row total">
                             <span>Tổng cộng</span>
-                            <span><%= totalPrice.toLocaleString() %> đ</span>
+                            <span><%= totalPrice.toLocaleString() %> đ</span> <!-- Tổng cộng -->
                         </div>
                     </div>
                 </div>
             </div>
+            
 
             <!-- Địa chỉ giao hàng -->
             <div class="right-section">
