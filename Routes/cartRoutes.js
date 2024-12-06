@@ -72,6 +72,52 @@ router.post('/add-to-cart', async (req, res) => {
     }
 });
 
+// Route xử lý xóa sản phẩm
+router.post('/cart/remove-item', async (req, res) => {
+    try {
+        const { productId, size, itemId } = req.body;  // Nhận thêm itemId từ body
+
+        // Tìm giỏ hàng
+        let cart = await Cart.findOne();
+        if (!cart) {
+            return res.status(404).json({ message: 'Giỏ hàng không tồn tại' });
+        }
+
+        // Lọc bỏ sản phẩm muốn xóa theo _id của item
+        cart.items = cart.items.filter(item => item._id.toString() !== itemId);
+
+        // Lưu giỏ hàng sau khi xóa
+        await cart.save();
+        res.json({ message: 'Sản phẩm đã được xóa khỏi giỏ hàng!' });
+    } catch (error) {
+        console.error("Lỗi khi xóa sản phẩm:", error);
+        res.status(500).json({ message: 'Đã có lỗi xảy ra khi xóa sản phẩm' });
+    }
+});
+
+
+//Route xử lý xóa tất sản phẩm 
+router.post('/cart/remove-all', async (req, res) => {
+    try {
+        // Tìm giỏ hàng
+        let cart = await Cart.findOne();
+        if (!cart) {
+            return res.status(404).json({ message: 'Giỏ hàng không tồn tại' });
+        }
+
+        // Xóa tất cả sản phẩm trong giỏ
+        cart.items = [];
+
+        // Lưu giỏ hàng sau khi xóa
+        await cart.save();
+        res.json({ message: 'Tất cả sản phẩm đã được xóa khỏi giỏ hàng!' });
+    } catch (error) {
+        console.error("Lỗi khi xóa tất cả sản phẩm:", error);
+        res.status(500).json({ message: 'Đã có lỗi xảy ra khi xóa tất cả sản phẩm' });
+    }
+});
+
+
 module.exports = router;
 
 

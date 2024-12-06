@@ -54,94 +54,162 @@
                 <h1 class="cart-title">Giỏ hàng</h1>
 
                 <!-- Nếu giỏ hàng trống, hiển thị ảnh giỏ hàng trống -->
-                <% if (products.length === 0) { %>
+                <% if (products.length===0) { %>
                     <div class="empty-cart">
                         <img src="/img/empty_cart.png" alt="Giỏ hàng trống" class="empty-cart-img">
                     </div>
-                <% } else { %>
-                    <!-- Nếu có sản phẩm trong giỏ, hiển thị cart-container -->
-                    <section class="cart-container">
-                        <div class="cart-header">
-                            <div class="cart-header-item">
-                                <input type="checkbox" class="cart-select-all"> Sản phẩm
+                    <% } else { %>
+                        <!-- Nếu có sản phẩm trong giỏ, hiển thị cart-container -->
+                        <section class="cart-container">
+                            <div class="cart-header">
+                                <div class="cart-header-item">
+                                    Sản phẩm
+                                </div>
+                                <div class="cart-header-price">Giá</div>
+                                <div class="cart-header-quantity">Số lượng</div>
+                                <div class="cart-header-remove"></div>
                             </div>
-                            <div class="cart-header-price">Giá</div>
-                            <div class="cart-header-quantity">Số lượng</div>
-                            <div class="cart-header-remove"></div>
-                        </div>
 
-                        <% let totalPrice=0; %> <!-- Khai báo biến tính tổng giá -->
-                        <% products.forEach(product => { %>
-                            <div class="cart-product">
-                                <div class="cart-product-item">
-                                    <input type="checkbox" class="cart-select">
-                                    <img src="<%= product.hinhanh %>" alt="<%= product.tensanpham %>"
-                                        class="cart-product-img">
-                                    <div class="cart-product-info">
-                                        <p class="info-title">
-                                            <%= product.tensanpham %>
-                                        </p>
-                                        <p>
-                                            Size
-                                            <select class="cart-size">
-                                                <% product.kichthuoc.forEach(size => { %>
-                                                    <option value="<%= size %>">
-                                                        <%= size %>
-                                                    </option>
-                                                <% }) %>
-                                            </select>
-                                        </p>
-                                        <button class="cart-update">Cập nhật</button>
+                            <% let totalPrice=0; %> <!-- Khai báo biến tính tổng giá -->
+                                <% products.forEach(product=> { %>
+                                    <div class="cart-product">
+                                        <div class="cart-product-item">
+                                            <img src="<%= product.hinhanh %>" alt="<%= product.tensanpham %>"
+                                                class="cart-product-img">
+                                            <div class="cart-product-info">
+                                                <p class="info-title">
+                                                    <%= product.tensanpham %>
+                                                </p>
+                                                <p>
+                                                    Size
+                                                    <select class="cart-size">
+                                                        <% product.kichthuoc.forEach(size=> { %>
+                                                            <option value="<%= size %>">
+                                                                <%= size %>
+                                                            </option>
+                                                            <% }) %>
+                                                    </select>
+                                                </p>
+                                                <button class="cart-update">Cập nhật</button>
+                                            </div>
+                                        </div>
+                                        <div class="cart-price">
+                                            <%= product.gia.toLocaleString() %> đ
+                                        </div>
+                                        <div class="product-quantity">
+                                            <input type="number" id="quantity" name="quantity" min="1"
+                                                value="<%= product.soluong %>">
+                                        </div>
+
+                                        <button class="cart-remove" data-id="<%= product.ID %>"
+                                            data-size="<%= product.kichthuoc[0] %>"
+                                            data-item-id="<%= product._id %>">Xóa</button>
                                     </div>
-                                </div>
-                                <div class="cart-price">
-                                    <%= product.gia.toLocaleString() %> đ
-                                </div>
-                                <div class="product-quantity">
-                                    <input type="number" id="quantity" name="quantity" min="1"
-                                        value="<%= product.soluong %>">
-                                </div>
 
-                                <button class="cart-remove">Xóa</button>
-                            </div>
+                                    <!-- Cộng giá sản phẩm vào totalPrice -->
+                                    <% totalPrice +=product.gia * product.soluong; %>
+                                        <% }) %>
 
-                            <!-- Cộng giá sản phẩm vào totalPrice -->
-                            <% totalPrice += product.gia * product.soluong; %>
-                        <% }) %>
+                                            <!-- Xóa all -->
+                                            <div class="delete-all">
+                                                <button class="cart-remove-all">Xóa tất cả</button>
+                                            </div>
 
-                        <!-- Xóa all -->
-                        <div class="delete-all">
-                            <button class="cart-remove-all">Xóa tất cả</button>
-                        </div>
-
-                        <!-- Tổng cộng -->
-                        <div class="cart-summary">
-                            <div class="cart-summary-row">
-                                <span>Giá</span>
-                                <span>
-                                    <%= totalPrice.toLocaleString() %> đ
-                                </span> <!-- Hiển thị tổng giá sản phẩm -->
-                            </div>
-                            <div class="cart-summary-row">
-                                <span>Phí vận chuyển</span>
-                                <span>1.000 đ</span> <!-- Phí vận chuyển cố định -->
-                            </div>
-                            <div class="cart-summary-row total">
-                                <span>Tổng cộng</span>
-                                <span>
-                                    <%= (totalPrice + 1000).toLocaleString() %> đ
-                                </span> <!-- Tổng cộng = tổng giá sản phẩm + phí vận chuyển -->
-                            </div>
-                            <a href="/payment/products">
-                                <button class="checkout-btn">Tiến hành thanh toán</button>
-                            </a>
-                        </div>
-                    </section>
-                <% } %>
+                                            <!-- Tổng cộng -->
+                                            <div class="cart-summary">
+                                                <div class="cart-summary-row">
+                                                    <span>Giá</span>
+                                                    <span>
+                                                        <%= totalPrice.toLocaleString() %> đ
+                                                    </span> <!-- Hiển thị tổng giá sản phẩm -->
+                                                </div>
+                                                <div class="cart-summary-row">
+                                                    <span>Phí vận chuyển</span>
+                                                    <span>1.000 đ</span> <!-- Phí vận chuyển cố định -->
+                                                </div>
+                                                <div class="cart-summary-row total">
+                                                    <span>Tổng cộng</span>
+                                                    <span>
+                                                        <%= (totalPrice + 1000).toLocaleString() %> đ
+                                                    </span> <!-- Tổng cộng = tổng giá sản phẩm + phí vận chuyển -->
+                                                </div>
+                                                <a href="/payment/products">
+                                                    <button class="checkout-btn">Tiến hành thanh toán</button>
+                                                </a>
+                                            </div>
+                        </section>
+                        <% } %>
             </div>
         </div>
 
     </main>
+    <script>
+
+        // Lắng nghe sự kiện xóa sản phẩm
+        document.querySelectorAll('.cart-remove').forEach(button => {
+            button.addEventListener('click', async (event) => {
+                const productId = button.dataset.id;
+                const size = button.dataset.size;
+                const itemId = button.dataset.itemId;  // Thêm itemId từ data attribute
+
+                // Hiển thị thông báo xác nhận
+                const isConfirmed = window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?");
+
+                if (isConfirmed) {
+                    try {
+                        const response = await fetch('/cart/remove-item', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ productId, size, itemId })  // Gửi itemId
+                        });
+
+                        const result = await response.json();
+                        if (response.ok) {
+                            alert(result.message);
+                            location.reload(); // Reload lại trang sau khi xóa thành công
+                        } else {
+                            alert(result.message || 'Lỗi khi xóa sản phẩm');
+                        }
+                    } catch (error) {
+                        console.error('Lỗi khi xóa sản phẩm:', error);
+                    }
+                }
+            });
+        });
+
+
+        // Lắng nghe sự kiện xóa tất cả sản phẩm
+        document.querySelector('.cart-remove-all').addEventListener('click', async () => {
+            // Hiển thị thông báo xác nhận
+            const isConfirmed = window.confirm("Bạn có chắc chắn muốn xóa tất cả sản phẩm khỏi giỏ hàng?");
+
+            if (isConfirmed) {
+                try {
+                    const response = await fetch('/cart/remove-all', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    const result = await response.json();
+                    if (response.ok) {
+                        alert(result.message);
+                        location.reload(); // Reload lại trang sau khi xóa tất cả sản phẩm
+                    } else {
+                        alert(result.message || 'Lỗi khi xóa tất cả sản phẩm');
+                    }
+                } catch (error) {
+                    console.error('Lỗi khi xóa tất cả sản phẩm:', error);
+                }
+            }
+        });
+
+
+
+    </script>
 </body>
 
 </html>
