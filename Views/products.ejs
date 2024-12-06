@@ -32,17 +32,26 @@
                     <!-- Search -->
                     <div class="search-container">
                         <form action="/search" method="get">
-                        <input type="text" name="q" placeholder="Tìm kiếm" class="input" required>
-                        <button type="submit" class="search-btn">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
+                            <input type="text" name="q" placeholder="Tìm kiếm" class="input" required>
+                            <button type="submit" class="search-btn">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
                         </form>
                     </div>
 
                     <!-- Icon -->
                     <ul class="icon">
                         <li><a href="/account"><i class="fa-solid fa-user user-icon"></i></a></li>
-                        <li><a href="/cart/products"><i class="fa-solid fa-cart-shopping cart-icon"></i></a></li>
+                        <li>
+                            <a href="/cart/products">
+                                <i class="fa-solid fa-cart-shopping cart-icon"></i>
+                                <% if (typeof totalItems !=='undefined' ) { %>
+                                    <span class="cart-count">
+                                        <%= totalItems %>
+                                    </span>
+                                    <% } %>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -225,12 +234,18 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        alert(data.message);
+                        alert(data.message); // Hiển thị thông báo
+                        if (data.message === 'Sản phẩm đã được thêm vào giỏ!') {
+                            setTimeout(() => {
+                                location.reload();
+                            }, 500);
+                        }
                     })
                     .catch(error => {
                         console.error("Có lỗi xảy ra khi thêm sản phẩm vào giỏ:", error);
                     });
             }
+
 
             function buyNow(productId) {
                 const quantity = document.getElementById("quantity").value;
@@ -248,6 +263,15 @@
             }
 
         </script>
+
+        <script>
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted) {
+                    location.reload();  
+                }
+            });
+        </script>
+
 
     </main>
 </body>

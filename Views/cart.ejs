@@ -32,17 +32,26 @@
                     <!-- Search -->
                     <div class="search-container">
                         <form action="/search" method="get">
-                        <input type="text" name="q" placeholder="Tìm kiếm" class="input" required>
-                        <button type="submit" class="search-btn">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
+                            <input type="text" name="q" placeholder="Tìm kiếm" class="input" required>
+                            <button type="submit" class="search-btn">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
                         </form>
                     </div>
 
                     <!-- Icon -->
                     <ul class="icon">
                         <li><a href="/account"><i class="fa-solid fa-user user-icon"></i></a></li>
-                        <li><a href="/cart/products"><i class="fa-solid fa-cart-shopping cart-icon"></i></a></li>
+                        <li>
+                            <a href="/cart/products">
+                                <i class="fa-solid fa-cart-shopping cart-icon"></i>
+                                <% if (typeof totalItems !=='undefined' ) { %>
+                                    <span class="cart-count">
+                                        <%= totalItems %>
+                                    </span>
+                                <% } %>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -52,93 +61,94 @@
         <div class="cart">
             <div class="content">
                 <h1 class="cart-title">Giỏ hàng</h1>
-                <section class="cart-container">
 
-                    <!-- Bảng tiêu đề các cột -->
-                    <div class="cart-header">
-                        <div class="cart-header-item">
-                            <input type="checkbox" class="cart-select-all"> Sản phẩm
-                        </div>
-                        <div class="cart-header-price">Giá</div>
-                        <div class="cart-header-quantity">Số lượng</div>
-                        <div class="cart-header-remove"></div>
+                <!-- Nếu giỏ hàng trống, hiển thị ảnh giỏ hàng trống -->
+                <% if (products.length === 0) { %>
+                    <div class="empty-cart">
+                        <img src="/img/empty_cart.png" alt="Giỏ hàng trống" class="empty-cart-img">
                     </div>
+                <% } else { %>
+                    <!-- Nếu có sản phẩm trong giỏ, hiển thị cart-container -->
+                    <section class="cart-container">
+                        <div class="cart-header">
+                            <div class="cart-header-item">
+                                <input type="checkbox" class="cart-select-all"> Sản phẩm
+                            </div>
+                            <div class="cart-header-price">Giá</div>
+                            <div class="cart-header-quantity">Số lượng</div>
+                            <div class="cart-header-remove"></div>
+                        </div>
 
-                    <!-- Giỏ hàng sản phẩm -->
-                    <% let totalPrice=0; %> <!-- Khai báo biến tính tổng giá -->
-                        <% if (products.length> 0) { %>
-                            <% products.forEach(product=> { %>
-                                <div class="cart-product">
-                                    <div class="cart-product-item">
-                                        <input type="checkbox" class="cart-select">
-                                        <img src="<%= product.hinhanh %>" alt="<%= product.tensanpham %>"
-                                            class="cart-product-img">
-                                        <div class="cart-product-info">
-                                            <p class="info-title">
-                                                <%= product.tensanpham %>
-                                            </p>
-                                            <p>
-                                                Size
-                                                <select class="cart-size">
-                                                    <% product.kichthuoc.forEach(size=> { %>
-                                                        <option value="<%= size %>">
-                                                            <%= size %>
-                                                        </option>
-                                                        <% }) %>
-                                                </select>
-                                            </p>
-                                            <button class="cart-update">Cập nhật</button>
-                                        </div>
+                        <% let totalPrice=0; %> <!-- Khai báo biến tính tổng giá -->
+                        <% products.forEach(product => { %>
+                            <div class="cart-product">
+                                <div class="cart-product-item">
+                                    <input type="checkbox" class="cart-select">
+                                    <img src="<%= product.hinhanh %>" alt="<%= product.tensanpham %>"
+                                        class="cart-product-img">
+                                    <div class="cart-product-info">
+                                        <p class="info-title">
+                                            <%= product.tensanpham %>
+                                        </p>
+                                        <p>
+                                            Size
+                                            <select class="cart-size">
+                                                <% product.kichthuoc.forEach(size => { %>
+                                                    <option value="<%= size %>">
+                                                        <%= size %>
+                                                    </option>
+                                                <% }) %>
+                                            </select>
+                                        </p>
+                                        <button class="cart-update">Cập nhật</button>
                                     </div>
-                                    <div class="cart-price">
-                                        <%= product.gia.toLocaleString() %> đ
-                                    </div>
-                                    <div class="product-quantity">
-                                        <input type="number" id="quantity" name="quantity" min="1"
-                                            value="<%= product.soluong %>">
-                                    </div>
-
-                                    <button class="cart-remove">Xóa</button>
+                                </div>
+                                <div class="cart-price">
+                                    <%= product.gia.toLocaleString() %> đ
+                                </div>
+                                <div class="product-quantity">
+                                    <input type="number" id="quantity" name="quantity" min="1"
+                                        value="<%= product.soluong %>">
                                 </div>
 
-                                <!-- Cộng giá sản phẩm vào totalPrice -->
-                                <% totalPrice +=product.gia * product.soluong; %>
-                                    <% }) %>
-                                        <% } else { %>
-                                            <p>Giỏ hàng của bạn đang trống.</p>
-                                            <% } %>
+                                <button class="cart-remove">Xóa</button>
+                            </div>
 
-                                                <!-- Xóa all -->
-                                                <div class="delete-all">
-                                                    <button class="cart-remove-all">Xóa tất cả</button>
-                                                </div>
+                            <!-- Cộng giá sản phẩm vào totalPrice -->
+                            <% totalPrice += product.gia * product.soluong; %>
+                        <% }) %>
 
-                                                <!-- Tổng cộng -->
-                                                <div class="cart-summary">
-                                                    <div class="cart-summary-row">
-                                                        <span>Giá</span>
-                                                        <span>
-                                                            <%= totalPrice.toLocaleString() %> đ
-                                                        </span> <!-- Hiển thị tổng giá sản phẩm -->
-                                                    </div>
-                                                    <div class="cart-summary-row">
-                                                        <span>Phí vận chuyển</span>
-                                                        <span>1.000 đ</span> <!-- Phí vận chuyển cố định -->
-                                                    </div>
-                                                    <div class="cart-summary-row total">
-                                                        <span>Tổng cộng</span>
-                                                        <span>
-                                                            <%= (totalPrice + 1000).toLocaleString() %> đ
-                                                        </span> <!-- Tổng cộng = tổng giá sản phẩm + phí vận chuyển -->
-                                                    </div>
-                                                    <a href="/payment/products">
-                                                        <button class="checkout-btn">Tiến hành thanh toán</button>
-                                                    </a>
-                                                </div>
-                </section>
+                        <!-- Xóa all -->
+                        <div class="delete-all">
+                            <button class="cart-remove-all">Xóa tất cả</button>
+                        </div>
+
+                        <!-- Tổng cộng -->
+                        <div class="cart-summary">
+                            <div class="cart-summary-row">
+                                <span>Giá</span>
+                                <span>
+                                    <%= totalPrice.toLocaleString() %> đ
+                                </span> <!-- Hiển thị tổng giá sản phẩm -->
+                            </div>
+                            <div class="cart-summary-row">
+                                <span>Phí vận chuyển</span>
+                                <span>1.000 đ</span> <!-- Phí vận chuyển cố định -->
+                            </div>
+                            <div class="cart-summary-row total">
+                                <span>Tổng cộng</span>
+                                <span>
+                                    <%= (totalPrice + 1000).toLocaleString() %> đ
+                                </span> <!-- Tổng cộng = tổng giá sản phẩm + phí vận chuyển -->
+                            </div>
+                            <a href="/payment/products">
+                                <button class="checkout-btn">Tiến hành thanh toán</button>
+                            </a>
+                        </div>
+                    </section>
+                <% } %>
             </div>
         </div>
-
 
     </main>
 </body>

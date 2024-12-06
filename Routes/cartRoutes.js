@@ -10,13 +10,17 @@ router.get('/cart/products', async (req, res) => {
         const cart = await Cart.findOne(); // Giả sử bạn chỉ có một giỏ hàng duy nhất
         const cartProducts = cart ? cart.items : []; // Lấy tất cả sản phẩm trong giỏ hàng
 
-        // Render trang giỏ hàng với dữ liệu sản phẩm
-        res.render('cart', { products: cartProducts });
+        // Tính số sản phẩm khác nhau trong giỏ hàng
+        const totalItems = cartProducts.length;
+
+        // Render trang giỏ hàng với dữ liệu sản phẩm và tổng số sản phẩm
+        res.render('cart', { products: cartProducts, totalItems: totalItems });
     } catch (error) {
         console.error(error);
         res.status(500).send("Lỗi khi tải giỏ hàng");
     }
 });
+
 
 // Route xử lý thêm sản phẩm vào giỏ hàng
 router.post('/add-to-cart', async (req, res) => {

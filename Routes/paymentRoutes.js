@@ -1,17 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../Models/products'); // Import model Product
-const Cart = require('../Models/cart'); // Import model Cart (thêm Cart model)
-const User = require('../Models/user'); // Import model User
+const Product = require('../Models/products'); 
+const Cart = require('../Models/cart'); 
+const User = require('../Models/user'); 
 
 // Route cho trang payment
 router.get('/payment/products', async (req, res) => {
     try {
-        // Giả sử bạn lưu cartId trong session hoặc đã có sẵn trong cơ sở dữ liệu
-        const cartId = "674de08ddfe4765675466cbf";  // ID giỏ hàng, có thể lấy từ session
-
-        // Lấy dữ liệu giỏ hàng từ collection Cart
-        const cart = await Cart.findById(cartId);
+        // Lấy giỏ hàng duy nhất từ database (không cần ID giỏ hàng)
+        const cart = await Cart.findOne();  // Lấy giỏ hàng đầu tiên hoặc duy nhất
 
         if (!cart) {
             return res.status(404).send("Giỏ hàng không tìm thấy");

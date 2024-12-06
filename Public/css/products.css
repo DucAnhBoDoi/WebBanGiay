@@ -541,3 +541,24 @@ ul{
 .scroll-to-top img:hover {
     opacity: 0.7;
 }
+
+
+
+.cart-count {
+    position: absolute;
+    top: 25px;
+    right: 490px;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    font-size: 14px;
+    min-width: 24px; /* Đảm bảo vòng tròn luôn có độ rộng tối thiểu */
+    height: 24px; /* Đảm bảo chiều cao cố định */
+    line-height: 1;
+    text-align: center;
+}
