@@ -117,6 +117,44 @@ router.post('/cart/remove-all', async (req, res) => {
     }
 });
 
+// Route xử lý cập nhật số lượng sản phẩm trong giỏ hàng
+router.post('/cart/update-item', async (req, res) => {
+    try {
+        const { itemId, quantity } = req.body;  // Lấy thông tin itemId và quantity từ body
+
+        // Tìm giỏ hàng
+        let cart = await Cart.findOne();
+        if (!cart) {
+            return res.status(404).json({ message: 'Giỏ hàng không tồn tại' });
+        }
+
+        // Tìm sản phẩm trong giỏ hàng theo itemId
+        const item = cart.items.find(item => item._id.toString() === itemId);
+        if (!item) {
+            return res.status(404).json({ message: 'Sản phẩm không tồn tại trong giỏ hàng' });
+        }
+
+        // Cập nhật số lượng sản phẩm
+        item.soluong = parseInt(quantity);
+
+        // Lưu giỏ hàng sau khi cập nhật
+        await cart.save();
+
+        // Tính lại tổng giá
+        let totalPrice = 0;
+        cart.items.forEach(item => {
+            totalPrice += item.gia * item.soluong;
+        });
+
+        res.json({
+            message: 'Cập nhật số lượng thành công!',
+            totalPrice: totalPrice,
+        });
+    } catch (error) {
+        console.error("Lỗi khi cập nhật số lượng sản phẩm:", error);
+        res.status(500).json({ message: 'Đã có lỗi xảy ra khi cập nhật số lượng' });
+    }
+});
 
 module.exports = router;
 

@@ -90,15 +90,16 @@
                                                             <% }) %>
                                                     </select>
                                                 </p>
-                                                <button class="cart-update">Cập nhật</button>
+                                                <button class="cart-update" data-item-id="<%= product._id %>">Cập
+                                                    nhật</button>
                                             </div>
                                         </div>
                                         <div class="cart-price">
                                             <%= product.gia.toLocaleString() %> đ
                                         </div>
                                         <div class="product-quantity">
-                                            <input type="number" id="quantity" name="quantity" min="1"
-                                                value="<%= product.soluong %>">
+                                            <input type="number" id="quantity_<%= product._id %>" name="quantity"
+                                                min="1" value="<%= product.soluong %>">
                                         </div>
 
                                         <button class="cart-remove" data-id="<%= product.ID %>"
@@ -207,7 +208,38 @@
             }
         });
 
+        // Lắng nghe sự kiện "Cập nhật" để gửi yêu cầu cập nhật số lượng
+        document.querySelectorAll('.cart-update').forEach(button => {
+            button.addEventListener('click', async (event) => {
+                const itemId = button.dataset.itemId;  // Lấy itemId từ data attribute
+                const quantity = document.querySelector(`#quantity_${itemId}`).value;  // Lấy giá trị số lượng từ input
 
+                // Hiển thị thông báo xác nhận
+                const isConfirmed = window.confirm("Bạn có chắc chắn muốn cập nhật số lượng sản phẩm này?");
+
+                if (isConfirmed) {
+                    try {
+                        const response = await fetch('/cart/update-item', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ itemId, quantity })  // Gửi itemId và quantity
+                        });
+
+                        const result = await response.json();
+                        if (response.ok) {
+                            alert(result.message); // Hiển thị thông báo sau khi cập nhật thành công
+                            location.reload(); // Reload lại trang sau khi cập nhật thành công
+                        } else {
+                            alert(result.message || 'Lỗi khi cập nhật số lượng');
+                        }
+                    } catch (error) {
+                        console.error('Lỗi khi cập nhật số lượng:', error);
+                    }
+                }
+            });
+        });
 
     </script>
 </body>
