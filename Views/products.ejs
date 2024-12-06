@@ -42,16 +42,7 @@
                     <!-- Icon -->
                     <ul class="icon">
                         <li><a href="/account"><i class="fa-solid fa-user user-icon"></i></a></li>
-                        <li>
-                            <a href="/cart/products">
-                                <i class="fa-solid fa-cart-shopping cart-icon"></i>
-                                <% if (typeof totalItems !=='undefined' ) { %>
-                                    <span class="cart-count">
-                                        <%= totalItems %>
-                                    </span>
-                                    <% } %>
-                            </a>
-                        </li>
+                        <li><a href="/cart/products"><i class="fa-solid fa-cart-shopping cart-icon"></i></a></li>
                     </ul>
                 </nav>
             </div>
@@ -263,15 +254,6 @@
             }
 
         </script>
-
-        <script>
-            window.addEventListener('pageshow', function (event) {
-                if (event.persisted) {
-                    location.reload();  
-                }
-            });
-        </script>
-
 
     </main>
 </body>
