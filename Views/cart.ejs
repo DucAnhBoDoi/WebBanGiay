@@ -159,7 +159,7 @@
                 if (isConfirmed) {
                     try {
                         const response = await fetch('/cart/remove-item', {
-                            method: 'POST',
+                            method: 'DELETE',
                             headers: {
                                 'Content-Type': 'application/json'
                             },
@@ -189,7 +189,7 @@
             if (isConfirmed) {
                 try {
                     const response = await fetch('/cart/remove-all', {
-                        method: 'POST',
+                        method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json'
                         }
@@ -220,7 +220,7 @@
                 if (isConfirmed) {
                     try {
                         const response = await fetch('/cart/update-item', {
-                            method: 'POST',
+                            method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json'
                             },

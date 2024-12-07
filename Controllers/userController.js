@@ -19,15 +19,14 @@ const getUser = async (req, res) => {
 const updateUser = async (req, res) => {
     const { username, phone, address, city, ward, district } = req.body;
 
-    // Kiểm tra điều kiện
-    const nameRegex = /^[^\d]*$/; 
-    const phoneRegex = /^[0-9]*$/; 
+    const nameRegex = /^[^\d]*$/;
+    const phoneRegex = /^[0-9]*$/;
 
     if (!nameRegex.test(username)) {
-        return res.redirect('/account?error=' + encodeURIComponent('Họ tên không được chứa chữ số.')); 
+        return res.json({ message: 'Họ tên không được chứa chữ số.' });
     }
     if (!phoneRegex.test(phone)) {
-        return res.redirect('/account?error=' + encodeURIComponent('Số điện thoại không được chứa kí tự.')); 
+        return res.json({ message: 'Số điện thoại không được chứa kí tự.' });
     }
 
     try {
@@ -36,7 +35,6 @@ const updateUser = async (req, res) => {
             return res.status(404).send('Người dùng không tìm thấy');
         }
 
-        // Cập nhật thông tin người dùng
         user.hoten = username;
         user.sodienthoai = phone;
         user.diachi = address;
@@ -44,12 +42,13 @@ const updateUser = async (req, res) => {
         user.phuong = ward;
         user.quan = district;
 
-        await user.save(); 
-        res.redirect('/account?success=true'); 
+        await user.save();
+        return res.json({ message: 'Thay đổi thông tin tài khoản thành công!' });
     } catch (error) {
-        res.status(500).send('Lỗi khi cập nhật thông tin người dùng');
+        return res.json({ message: 'Lỗi khi cập nhật thông tin người dùng' });
     }
 };
+
 
 module.exports = {
     getUser,

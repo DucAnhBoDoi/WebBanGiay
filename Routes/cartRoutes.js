@@ -73,7 +73,7 @@ router.post('/add-to-cart', async (req, res) => {
 });
 
 // Route xử lý xóa sản phẩm
-router.post('/cart/remove-item', async (req, res) => {
+router.delete('/cart/remove-item', async (req, res) => {
     try {
         const { productId, size, itemId } = req.body;  // Nhận thêm itemId từ body
 
@@ -97,7 +97,7 @@ router.post('/cart/remove-item', async (req, res) => {
 
 
 //Route xử lý xóa tất sản phẩm 
-router.post('/cart/remove-all', async (req, res) => {
+router.delete('/cart/remove-all', async (req, res) => {
     try {
         // Tìm giỏ hàng
         let cart = await Cart.findOne();
@@ -118,7 +118,7 @@ router.post('/cart/remove-all', async (req, res) => {
 });
 
 // Route xử lý cập nhật số lượng sản phẩm trong giỏ hàng
-router.post('/cart/update-item', async (req, res) => {
+router.put('/cart/update-item', async (req, res) => {
     try {
         const { itemId, quantity } = req.body;  // Lấy thông tin itemId và quantity từ body
 

@@ -116,11 +116,44 @@
 
                 <!-- Nút tiến hành đặt hàng -->
                 <div class="checkout-button">
-                    <button>Tiến hành đặt hàng</button>
+                    <button id="place-order-button">Tiến hành đặt hàng</button>
                 </div>
             </div>
         </div>
     </main>
+
+    <script>
+        document.querySelector('#place-order-button').addEventListener('click', async (event) => {
+            event.preventDefault(); 
+    
+            // Hiển thị xác nhận
+            const isConfirmed = window.confirm("Bạn có chắc chắn muốn đặt hàng?");
+    
+            if (isConfirmed) {
+                try {
+                    const response = await fetch('/payment/place-order', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+    
+                    const result = await response.json();
+    
+                    if (response.ok) {
+                        alert(result.message || 'Đặt hàng thành công!');
+                        window.location.href = '/';
+                    } else {
+                        alert(result.message || 'Lỗi khi đặt hàng. Vui lòng thử lại.');
+                    }
+                } catch (error) {
+                    console.error('Lỗi khi đặt hàng:', error);
+                    alert('Đã xảy ra lỗi. Vui lòng thử lại sau.');
+                }
+            }
+        });
+    </script>
+    
 </body>
 
 </html>

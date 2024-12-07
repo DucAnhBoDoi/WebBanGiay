@@ -84,13 +84,41 @@
         </div>
 
         <script>
-            setTimeout(function() {
-                const alert = document.querySelector('.alert');
-                if (alert) {
-                    alert.style.display = 'none';
+            document.querySelector('.submit').addEventListener('click', async (event) => {
+                event.preventDefault(); 
+        
+                // Lấy giá trị từ form
+                const username = document.querySelector('#username').value;
+                const phone = document.querySelector('#phone').value;
+                const address = document.querySelector('#address').value;
+                const city = document.querySelector('#city').value;
+                const ward = document.querySelector('#ward').value;
+                const district = document.querySelector('#district').value;
+        
+                try {
+                    const response = await fetch('/account', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username, phone, address, city, ward, district }),
+                    });
+        
+                    const result = await response.json();
+        
+                    if (response.ok) {
+                        alert(result.message || 'Thay đổi thông tin tài khoản thành công!');
+                        window.location.reload();  // Hoặc có thể chuyển hướng sang trang khác
+                    } else {
+                        alert(result.message || 'Lỗi khi cập nhật thông tin tài khoản.');
+                    }
+                } catch (error) {
+                    console.error('Lỗi khi cập nhật thông tin:', error);
+                    alert('Đã xảy ra lỗi. Vui lòng thử lại sau.');
                 }
-            }, 3000); 
+            });
         </script>
+        
 
         <!-- Footer -->
         <footer class="footer">

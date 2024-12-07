@@ -33,4 +33,28 @@ router.get('/payment/products', async (req, res) => {
     }
 });
 
+
+router.delete('/payment/place-order', async (req, res) => {
+    try {
+        // Tìm giỏ hàng
+        let cart = await Cart.findOne();
+        if (!cart) {
+            return res.status(404).json({ message: 'Giỏ hàng không tồn tại' });
+        }
+
+        // Xóa tất cả sản phẩm trong giỏ
+        cart.items = [];
+
+        // Lưu lại giỏ hàng sau khi xóa
+        await cart.save();
+
+        // Phản hồi thành công
+        res.json({ message: 'Đặt hàng thành công!' });
+    } catch (error) {
+        console.error('Lỗi khi đặt hàng:', error);
+        res.status(500).json({ message: 'Đã có lỗi xảy ra khi đặt hàng.' });
+    }
+});
+
+
 module.exports = router;
