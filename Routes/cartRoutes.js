@@ -5,16 +5,25 @@ const Product = require('../Models/products'); // Import model Product
 const Cart = require('../Models/cart'); // Import model Cart
 
 // Route cho trang giỏ hàng
+// Routes/cartRoutes.js
 router.get('/cart/products', async (req, res) => {
     try {
-        const cart = await Cart.findOne(); // Giả sử bạn chỉ có một giỏ hàng duy nhất
-        const cartProducts = cart ? cart.items : []; // Lấy tất cả sản phẩm trong giỏ hàng
+        const cart = await Cart.findOne();
+        const cartProducts = cart ? cart.items : [];
+        
+        // Lấy thông tin size từ collection Products
+        const updatedCartProducts = await Promise.all(cartProducts.map(async (item) => {
+            const product = await Product.findOne({ ID: item.ID });
+            return {
+                ...item.toObject(), // Chuyển đổi sang object để có thể thêm thuộc tính
+                availableSizes: product ? product.kichthuoc : []
+            };
+        }));
 
-        // Tính số sản phẩm khác nhau trong giỏ hàng
-        const totalItems = cartProducts.length;
-
-        // Render trang giỏ hàng với dữ liệu sản phẩm và tổng số sản phẩm
-        res.render('cart', { products: cartProducts, totalItems: totalItems });
+        res.render('cart', { 
+            products: updatedCartProducts, 
+            totalItems: cartProducts.length 
+        });
     } catch (error) {
         console.error(error);
         res.status(500).send("Lỗi khi tải giỏ hàng");
@@ -120,7 +129,7 @@ router.delete('/cart/remove-all', async (req, res) => {
 // Route xử lý cập nhật số lượng sản phẩm trong giỏ hàng
 router.put('/cart/update-item', async (req, res) => {
     try {
-        const { itemId, quantity } = req.body;  // Lấy thông tin itemId và quantity từ body
+        const { itemId, quantity, size } = req.body;  // Lấy thông tin itemId, quantity và size từ body
 
         // Tìm giỏ hàng
         let cart = await Cart.findOne();
@@ -134,8 +143,9 @@ router.put('/cart/update-item', async (req, res) => {
             return res.status(404).json({ message: 'Sản phẩm không tồn tại trong giỏ hàng' });
         }
 
-        // Cập nhật số lượng sản phẩm
+        // Cập nhật số lượng và kích thước sản phẩm
         item.soluong = parseInt(quantity);
+        item.kichthuoc = size;  // Cập nhật kích thước mới
 
         // Lưu giỏ hàng sau khi cập nhật
         await cart.save();
@@ -147,7 +157,7 @@ router.put('/cart/update-item', async (req, res) => {
         });
 
         res.json({
-            message: 'Cập nhật số lượng thành công!',
+            message: 'Cập nhật sản phẩm thành công!',
             totalPrice: totalPrice,
         });
     } catch (error) {
@@ -155,6 +165,7 @@ router.put('/cart/update-item', async (req, res) => {
         res.status(500).json({ message: 'Đã có lỗi xảy ra khi cập nhật số lượng' });
     }
 });
+
 
 module.exports = router;
 
