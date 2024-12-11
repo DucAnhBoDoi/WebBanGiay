@@ -1,43 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../Models/products'); // Import model Product
+const homeController = require('../Controllers/homeController'); // Import homeController
 
-// Route cho trang home
-router.get('/', async (req, res) => {
-  try {
-    // Lấy sản phẩm sandals và sneakers từ MongoDB
-    const sandals = await Product.find({ ID: { $in: ["PROD001", "PROD002", "PROD003", "PROD004", "PROD005"] } });
-    const sneakers = await Product.find({ ID: { $in: ["PROD006", "PROD007", "PROD008", "PROD009", "PROD010"] } });
+// Route cho trang chủ
+router.get('/', homeController.getHomePage);
 
-    res.render('home', { sandals, sneakers }); 
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
-
-
-// Route cho trang search
-router.get('/search', async (req, res) => {
-  try {
-    // Lấy giá trị tìm kiếm từ query string
-    const query = req.query.q;
-    
-    // Tìm sản phẩm theo tên sản phẩm trong MongoDB
-    const sandals = await Product.find({ 
-      tensanpham: { $regex: query, $options: 'i' } // Tìm kiếm không phân biệt chữ hoa chữ thường
-    });
-
-    // Render trang search và truyền dữ liệu sandals vào
-    res.render('search', { sandals, query });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
-
-
+// Route cho trang tìm kiếm sản phẩm
+router.get('/search', homeController.getSearchResults);
 
 module.exports = router;
-
-
